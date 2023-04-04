@@ -53,4 +53,51 @@ public class DBManager {
         }
         return students;
     }
+    public static Student getStudent(Long id){
+        Student student = new Student();
+        try {
+            PreparedStatement stmt = connection.prepareStatement("select * from students where id = ?");
+            stmt.setLong(1,id);
+            ResultSet resultSet = stmt.executeQuery();
+            while(resultSet.next()){
+                student.setId(resultSet.getLong("id"));
+                student.setName(resultSet.getString("name"));
+                student.setSurname(resultSet.getString("surname"));
+                student.setExam(resultSet.getInt("exam"));
+                student.setMark(resultSet.getString("mark"));
+            }
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return student;
+    }
+    public static boolean updateStudent(Student student){
+        int rows = 0;
+        try {
+            PreparedStatement stmt = connection.prepareStatement("update students set name=?,surname=?,exam=?,mark=? where id=?");
+            stmt.setString(1,student.getName());
+            stmt.setString(2,student.getSurname());
+            stmt.setInt(3,student.getExam());
+            stmt.setString(4,student.getMark());
+            stmt.setLong(5,student.getId());
+            rows =stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rows > 0;
+    }
+    public static boolean deleteStudent(Long id){
+        int rows = 0;
+        try {
+            PreparedStatement stmt = connection.prepareStatement("delete from students where id = ?");
+            stmt.setLong(1,id);
+            rows = stmt.executeUpdate();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rows > 0;
+    }
 }

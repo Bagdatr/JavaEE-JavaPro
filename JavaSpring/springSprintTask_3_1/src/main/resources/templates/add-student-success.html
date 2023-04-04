@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add-student</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <div class="col-md-2">
+    <a class="navbar-brand" href="/home" style="margin-left: 10%">Students List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+
+  <div class="collapse navbar-collapse col-md-3" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/student/add-student">Add Student</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<p></p>
+
+<div class="container">
+  <div class="row p-3 mb-2 bg-success text-white">
+    <h6>Student has been added successfully</h6>
+  </div>
+</div>
+<p></p>
+
+<div class="container">
+  <div class="row">
+    <form th:action="@{'/student/add-student-success'}" method="post">
+      <div class="form-group">
+        <label class="form-label">NAME:</label>
+        <input class="form-control" type="text" name="student-name" placeholder="Input student's name">
+      </div>
+      <br>
+      <div class="form-group">
+        <label class="form-label">SURNAME:</label>
+        <input class="form-control" type="text" name="student-surname" placeholder="Input student's surname">
+      </div>
+      <br>
+      <div class="form-group">
+        <label class="form-label">EXAM:</label>
+        <input class="form-control" type="number" name="student-exam" placeholder="Input student's exam score">
+      </div>
+      <br>
+      <div class="form-group">
+        <button class="btn btn-primary">ADD STUDENT</button>
+      </div>
+    </form>
+    <p></p>
+    <div>
+      <a href="/home" class="btn btn-light">CANCEL</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+</body>
+</html>

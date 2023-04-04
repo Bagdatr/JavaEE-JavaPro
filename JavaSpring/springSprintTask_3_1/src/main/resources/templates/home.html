@@ -9,7 +9,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
   <div class="col-md-2">
-    <a class="navbar-brand" href="#" style="margin-left: 5%">Student List</a>
+    <a class="navbar-brand" href="/home" style="margin-left: 10%">Students List</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -33,10 +33,10 @@
     <div class="col-md-1">
       <h5>ID</h5>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <h5>NAME</h5>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <h5>SURNAME</h5>
     </div>
     <div class="col-md-2">
@@ -45,25 +45,32 @@
     <div class="col-md-1">
       <h5>MARK</h5>
     </div>
+    <div class="col-md-2">
+      <h5>DETAILS</h5>
+    </div>
   </div>
 </div>
 
 <div class="container" th:each="student:${students}">
   <div class="row border-bottom" >
-    <div class="col-md-1" th:if="${student.getMark().equals('F')}" style="color:red" th:text="${student.getId()}"></div>
+    <div class="col-md-1" th:if="${student.getMark().equals('F')}" style="color:red; font-weight:600" th:text="${student.getId()}"></div>
     <div class="col-md-1" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getId()}"></div>
 
-    <div class="col-md-4" th:if="${student.getMark().equals('F')}" style="color:red" th:text="${student.getName()}"></div>
-    <div class="col-md-4" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getName()}"></div>
+    <div class="col-md-3" th:if="${student.getMark().equals('F')}" style="color:red; font-weight:600" th:text="${student.getName()}"></div>
+    <div class="col-md-3" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getName()}"></div>
 
-    <div class="col-md-4" th:if="${student.getMark().equals('F')}" style="color:red" th:text="${student.getSurname()}"></div>
-    <div class="col-md-4" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getSurname()}"></div>
+    <div class="col-md-3" th:if="${student.getMark().equals('F')}" style="color:red; font-weight:600" th:text="${student.getSurname()}"></div>
+    <div class="col-md-3" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getSurname()}"></div>
 
-    <div class="col-md-2" th:if="${student.getMark().equals('F')}" style="color:red" th:text="${student.getExam()}"></div>
+    <div class="col-md-2" th:if="${student.getMark().equals('F')}" style="color:red; font-weight:600" th:text="${student.getExam()}"></div>
     <div class="col-md-2" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getExam()}"></div>
 
-    <div class="col-md-1" th:if="${student.getMark().equals('F')}" style="color:red" th:text="${student.getMark()}"></div>
+    <div class="col-md-1" th:if="${student.getMark().equals('F')}" style="color:red; font-weight:600" th:text="${student.getMark()}"></div>
     <div class="col-md-1" th:unless="${student.getMark().equals('F')}" style="color:black" th:text="${student.getMark()}"></div>
+
+    <div class="col-md-2">
+      <a class="btn btn-primary" th:href="@{'/home/details?id=' + ${student.getId()}}">DETAILS</a>
+    </div>
   </div>
 </div>
 
