@@ -58,17 +58,20 @@
     </form>
     <p></p>
 
-    <form th:action="@{'/student/delete-student'}" method="post">
-      <input type="hidden" name="student-id" th:value="${student.getId()}">
-      <div class="form-group">
-        <button class="btn btn-danger">DELETE</button>
+    <div class="row">
+      <div class="col-md-1">
+        <form th:action="@{'/student/delete-student'}" method="post">
+          <input type="hidden" name="student-id" th:value="${student.getId()}">
+          <div class="form-group">
+            <button class="btn btn-danger">DELETE</button>
+          </div>
+        </form>
       </div>
-    </form>
-    <p></p>
-
-    <div>
-      <a href="/home" class="btn btn-light">CANCEL</a>
+      <div class="col-md-1">
+        <a href="/home" class="btn btn-light">CANCEL</a>
+      </div>
     </div>
+
   </div>
 </div>
 
