@@ -1,0 +1,30 @@
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/application/all-requests"><h4>CRM система</h4></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/application/all-requests">Все заявки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/application/new-requests">Новые заявки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/application/handled-requests">Обработанные заявки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/application/add-request">+Добавить заявку</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search" th:action="@{'/application/all-requests-search'}" method="get">
+                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="name-search">
+                <button class="btn btn-outline-link" type="submit" style="color:white">Поиск</button>
+            </form>
+        </div>
+    </div>
+</nav>

@@ -1,88 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Details</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-</head>
-<body>
-
-
-<!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/application/all-requests"><h4>CRM система</h4></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/application/all-requests">Все заявки</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/application/new-requests">Новые заявки</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/application/handled-requests">Обработанные заявки</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/application/add-request">+Добавить заявку</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout-frame.html">
 
 <!--Application form-->
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-6 offset-3">
-            <form th:action="${'/application/process'}" method="post">
-                <input type="hidden" name="user-id" th:value="${applicationRequest.getId()}">
-                <h5 th:if="${applicationRequest.isHandled() == false}" style="color:red;">*** Новая необработанная заявка ***</h5>
-                <h5 th:unless="${applicationRequest.isHandled() == false}" style="color:green;">Обработанная заявка</h5>
-                <div class="form-group">
-                    <label>ФИО:</label>
-                    <input type="text" class="form-control" name="user-name" placeholder="Введите ваше ФИО"
-                           th:value="${applicationRequest.getUserName()}">
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-6 offset-3">
+                    <form th:action="${'/application/process'}" method="post">
+                        <input type="hidden" name="user-id" th:value="${applicationRequest.getId()}">
+                        <h5 th:if="${applicationRequest.isHandled() == false}" style="color:red;">*** Новая необработанная заявка ***</h5>
+                        <h5 th:unless="${applicationRequest.isHandled() == false}" style="color:green;">Обработанная заявка</h5>
+                        <div class="form-group">
+                            <label>ФИО:</label>
+                            <input type="text" class="form-control" name="user-name" placeholder="Введите ваше ФИО"
+                                   th:value="${applicationRequest.getUserName()}">
+                        </div>
+                        <div class="form-group">
+                            <label>Курс:</label>
+                            <input type="text" class="form-control" name="course-name"
+                                   th:value="${applicationRequest.getCourseName()}">
+                        </div>
+                        <div class="form-group">
+                            <label>Телефон:</label>
+                            <input type="text" class="form-control" placeholder="+7(7__) ___ __ __" name="user-phone"
+                                   th:value="${applicationRequest.getPhone()}">
+                        </div>
+                        <div class="form-group">
+                            <label>Комментарии:</label>
+                            <textarea type="text" class="form-control" name="user-commentary" placeholder="Добавьте комменатрий"
+                                      th:text="${applicationRequest.getCommentary()}"></textarea>
+                        </div>
+                        <br>
+                        <div class="form-group" th:if="${applicationRequest.isHandled() == false}">
+                            <button class="btn btn-success">Обработать заявку</button>
+                        </div>
+                    </form>
+                    <br>
+                    <form th:action="${'/application/delete'}" method="post">
+                        <input type="hidden" name="user-id" th:value="${applicationRequest.getId()}">
+                        <button class="btn btn-danger">Удалить заявку</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label>Курс:</label>
-                    <input type="text" class="form-control" name="course-name"
-                           th:value="${applicationRequest.getCourseName()}">
-                </div>
-                <div class="form-group">
-                    <label>Телефон:</label>
-                    <input type="text" class="form-control" placeholder="+7(7__) ___ __ __" name="user-phone"
-                           th:value="${applicationRequest.getPhone()}">
-                </div>
-                <div class="form-group">
-                    <label>Комментарии:</label>
-                    <textarea type="text" class="form-control" name="user-commentary" placeholder="Добавьте комменатрий"
-                              th:text="${applicationRequest.getCommentary()}"></textarea>
-                </div>
-                <br>
-                <div class="form-group" th:if="${applicationRequest.isHandled() == false}">
-                    <button class="btn btn-success">Обработать заявку</button>
-                </div>
-            </form>
-            <br>
-            <form th:action="${'/application/delete'}" method="post">
-                <input type="hidden" name="user-id" th:value="${applicationRequest.getId()}">
-                <button class="btn btn-danger">Удалить заявку</button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
-
-
-<!--Bootstrap script-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-</body>
 </html>

@@ -28,26 +28,8 @@ public class RequestController {
         String redirect = "/application/add-request?error";
         ApplicationRequest applicationRequest = new ApplicationRequest();
         applicationRequest.setUserName(name);
-//        String newName = name;
-//        String newNameWithEmailAddress = "";
-//        for(int i=0; i<newName.length(); i++) {
-//            if (Character.isLetter(newName.charAt(i))) {
-//                newNameWithEmailAddress += newName.toLowerCase().charAt(i);
-//            }
-//        }
-//        applicationRequest.setUserName(newNameWithEmailAddress + "@gmail.com");
-//
-//        applicationRequest.setCourseName(course);
+        applicationRequest.setCourseName(course);
         applicationRequest.setPhone(phone);
-//        String phoneNumberWithLettersAndSymbols = phone;
-//        String cleanPhoneNumber = "";
-//        for(int i=0; i < phoneNumberWithLettersAndSymbols.length(); i++){
-//            if(Character.isDigit(phoneNumberWithLettersAndSymbols.charAt(i)) || Character.toString(phoneNumberWithLettersAndSymbols.charAt(i)).equals("+")){
-//                cleanPhoneNumber += phoneNumberWithLettersAndSymbols.charAt(i);
-//            }
-//        }
-//        applicationRequest.setPhone(cleanPhoneNumber);
-
         applicationRequest.setCommentary(commentary);
         applicationRequest.setHandled(false);
         if (requestRepository.save(applicationRequest) != null) {
