@@ -12,16 +12,21 @@
                         <div class="card-body">
                             <div class="card-title" name="user-name">
                                 <div style="display: flex">
-                                    <h5 th:if="${request.isHandled() == false}" style="color:red;">*(Новая) </h5>
-                                    <label> Заявка от</label>
+                                    <h5 th:if="${request.handled == false}" style="color:red;" th:text="#{label.statusNewRequest}"></h5>
+                                    <label th:text="#{label.requestFrom}">Заявка от</label>
                                 </div>
-                                <h5 th:text="${request.getUserName()}"></h5>
+                                <h5 th:text="${request.userName}"></h5>
                             </div>
 
-                            <div class="card-subtitle mb-2 text-muted" name="course-name">Курс: <p class="card-subtitle mb-2 text-muted" th:text="${request.getCourseName()}"></p></div>
-                            <div class="card-text" name="user-commentary" th:text="${request.getCommentary()}"></div>
-                            <div class="card-title" name="user-phone"><h6 th:text="${request.getPhone()}"></h6></div>
-                            <a th:href="@{'/application/details/' + ${request.getId()}}" class="card-link">Подробнее</a>
+                            <div class="card-subtitle mb-2 text-muted" name="course-name">
+                                <label th:text="#{label.course}"></label>
+                                <p class="card-subtitle mb-2 text-muted" th:text="${request.course.description}"></p>
+                            </div>
+                            <div class="card-text" name="user-commentary">
+                                <label th:text="${request.commentary}"></label>
+                            </div>
+                            <div class="card-title" name="user-phone"><h6 th:text="${request.phone}"></h6></div>
+                            <a th:href="@{'/application/details/' + ${request.id}}" class="card-link" th:text="#{label.details}"></a>
                         </div>
                     </div>
                 </div>

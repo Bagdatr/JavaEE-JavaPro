@@ -11,16 +11,16 @@
                     <div class="card mt-3" style="width: 32rem">
                         <div class="card-body">
                             <div class="card-title" name="user-name">
-                                <h5 th:if="${request.isHandled() == false}" style="color:red;">*(Новая)</h5>
+                                <h5 th:if="${request.handled == false}" style="color:red;">*(Новая)</h5>
                                 Заявка от
-                                <h5 th:text="${request.getUserName()}"></h5>
+                                <h5 th:text="${request.userName}"></h5>
                             </div>
 
                             <div class="card-subtitle mb-2 text-muted" name="course-name">Курс: <p
-                                    class="card-subtitle mb-2 text-muted" th:text="${request.getCourseName()}"></p></div>
-                            <div class="card-text" name="user-commentary" th:text="${request.getCommentary()}"></div>
-                            <div class="card-title" name="user-phone"><h6 th:text="${request.getPhone()}"></h6></div>
-                            <a th:href="@{'/application/details/' + ${request.getId()}}" class="card-link">Подробнее</a>
+                                    class="card-subtitle mb-2 text-muted" th:text="${request.course.description}"></p></div>
+                            <div class="card-text" name="user-commentary" th:text="${request.commentary}"></div>
+                            <div class="card-title" name="user-phone"><h6 th:text="${request.phone}"></h6></div>
+                            <a th:href="@{'/application/details/' + ${request.id}}" class="card-link">Подробнее</a>
                         </div>
                     </div>
                 </div>

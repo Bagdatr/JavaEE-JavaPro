@@ -1,12 +1,17 @@
 package kz.bitlab.CrmSystem_SprintTask_6_1.controllers;
 
 import kz.bitlab.CrmSystem_SprintTask_6_1.entities.ApplicationRequest;
+import kz.bitlab.CrmSystem_SprintTask_6_1.entities.Courses;
+import kz.bitlab.CrmSystem_SprintTask_6_1.entities.Operators;
+import kz.bitlab.CrmSystem_SprintTask_6_1.repositories.CoursesRepository;
+import kz.bitlab.CrmSystem_SprintTask_6_1.repositories.OperatorsRepository;
 import kz.bitlab.CrmSystem_SprintTask_6_1.repositories.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -14,21 +19,26 @@ import java.util.List;
 public class RequestController {
     @Autowired
     private RequestRepository requestRepository;
+    @Autowired
+    private CoursesRepository coursesRepository;
+    @Autowired
+    private OperatorsRepository operatorsRepository;
 
     @GetMapping(value = "/add-request")
-    public String openAddRequest() {
+    public String openAddRequest(Model model) {
+        model.addAttribute("courses", coursesRepository.findAll());
         return "add-request";
     }
 
     @PostMapping(value = "/add-request")
     public String addRequest(@RequestParam(name = "user-name") String name,
-                             @RequestParam(name = "course-name") String course,
+                             @RequestParam(name = "course-name") Courses course,
                              @RequestParam(name = "user-phone") String phone,
                              @RequestParam(name = "user-commentary") String commentary) {
         String redirect = "/application/add-request?error";
         ApplicationRequest applicationRequest = new ApplicationRequest();
         applicationRequest.setUserName(name);
-        applicationRequest.setCourseName(course);
+        applicationRequest.setCourse(course);
         applicationRequest.setPhone(phone);
         applicationRequest.setCommentary(commentary);
         applicationRequest.setHandled(false);
@@ -40,8 +50,7 @@ public class RequestController {
 
     @GetMapping(value = "/all-requests")
     public String openAllRequests(Model model) {
-        List<ApplicationRequest> requests = requestRepository.findAll();
-        model.addAttribute("requests", requests);
+        model.addAttribute("requests",requestRepository.findAll());
         return "all-requests";
     }
 
@@ -53,28 +62,24 @@ public class RequestController {
         return "all-requests";
     }
 
-
     @GetMapping(value = "/details/{id}")
     public String openDetails(@PathVariable("id") Long id,
                               Model model) {
-        ApplicationRequest applicationRequest = requestRepository.findAllById(id);
-        model.addAttribute("applicationRequest", applicationRequest);
+        model.addAttribute("details", requestRepository.findAllById(id));
+        model.addAttribute("courses",coursesRepository.findAll());
+        model.addAttribute("operators",operatorsRepository.findAll());
+        model.addAttribute("listOfAssignedOperators",requestRepository.)
         return "details";
     }
 
     @PostMapping(value = "/process")
-    public String processRequest(@RequestParam(name = "user-id") Long id,
-                                 @RequestParam(name = "user-name") String name,
-                                 @RequestParam(name = "course-name") String course,
-                                 @RequestParam(name = "user-phone") String phone,
-                                 @RequestParam(name = "user-commentary") String commentary) {
+    public String processRequest(@RequestParam(name="details_id") Long id,
+                                 @RequestParam(name = "operator_check") List<Operators> operatorsList) {
         String redirect = "/application/process?error";
         ApplicationRequest applicationRequest = requestRepository.findAllById(id);
-        applicationRequest.setUserName(name);
-        applicationRequest.setCourseName(course);
-        applicationRequest.setPhone(phone);
-        applicationRequest.setCommentary(commentary);
+        applicationRequest.setOperators(operatorsList);
         applicationRequest.setHandled(true);
+
         if (requestRepository.save(applicationRequest) != null) {
             redirect = "/application/details/" + id;
         }
@@ -89,14 +94,12 @@ public class RequestController {
 
     @GetMapping(value = "/handled-requests")
     public String openHandledRequests(Model model) {
-        List<ApplicationRequest> handledRequests = requestRepository.findAllByHandled(true);
-        model.addAttribute("handledRequests", handledRequests);
+        model.addAttribute("handledRequests", requestRepository.findAllByHandled(true));
         return "handled-requests";
     }
     @GetMapping(value="/new-requests")
     public String openNewRequests(Model model){
-        List<ApplicationRequest> newRequests = requestRepository.findAllByHandled(false);
-        model.addAttribute("newRequests", newRequests);
+        model.addAttribute("newRequests", requestRepository.findAllByHandled(false));
         return "new-requests";
     }
     @GetMapping(value="/tasks")

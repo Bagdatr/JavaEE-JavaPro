@@ -1,6 +1,9 @@
-<div class="list-group mt-3">
-    <a href="/application/all-requests" class="list-group-item list-group-item-action">Все заявки</a>
-    <a href="/application/new-requests" class="list-group-item list-group-item-action">Новые заявки</a>
-    <a href="/application/handled-requests" class="list-group-item list-group-item-action">Обработанные заявки</a>
-    <a href="/application/add-request" class="list-group-item list-group-item-action">+Добавить заявку</a>
-</div>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div class="list-group mt-3">
+        <a href="/application/all-requests" class="list-group-item list-group-item-action" th:text="#{label.allRequests}"></a>
+        <a href="/application/new-requests" class="list-group-item list-group-item-action" th:text="#{label.newRequests}"></a>
+        <a href="/application/handled-requests" class="list-group-item list-group-item-action" th:text="#{label.handledRequests}"></a>
+        <a href="/application/add-request" class="list-group-item list-group-item-action" th:text="#{label.addRequest}"></a>
+        <a href="/application/tasks" class="list-group-item list-group-item-action" th:text="#{label.tasks}"></a>
+    </div>
+</html>

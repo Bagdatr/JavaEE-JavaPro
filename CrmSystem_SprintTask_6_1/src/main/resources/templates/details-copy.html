@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout-frame.html">
+
+<!--Application form-->
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-6 offset-3">
+                    <form th:action="${'/application/process'}" method="post">
+                        <input type="hidden" name="user-id" th:value="${details.id}">
+                        <h5 th:if="${details.handled == false}" style="color:red;" th:text="#{label.statusUnhandledRequest}"></h5>
+                        <h5 th:unless="${details.handled == false}" style="color:green;" th:text="#{label.statusHandledRequest}"></h5>
+                        <div class="form-group">
+                            <label th:text="#{label.fullName}"></label>
+                            <input type="text" class="form-control" name="user-name" th:placeholder="#{label.fullNamePlaceholder}"
+                                   th:value="${details.userName}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.course}"></label>
+                            <input type="hidden" th:value="${details.course.id}" name="course-name">
+                            <p type="text" class="form-control" th:text="${details.course.description}"></p>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.phone}"></label>
+                            <input type="text" class="form-control" placeholder="+7(7__) ___ __ __" name="user-phone"
+                                   th:value="${details.phone}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.comment}"></label>
+                            <textarea type="text" class="form-control" name="user-commentary" placeholder="Добавьте комменатрий"
+                                      th:text="${details.commentary}"></textarea>
+                        </div>
+                        <br>
+                        <div class="form-group" th:if="${details.handled == false}">
+                            <button class="btn btn-success" th:text="#{button.processRequest}"></button>
+                        </div>
+                    </form>
+                    <br>
+                    <form th:action="${'/application/delete'}" method="post">
+                        <input type="hidden" name="user-id" th:value="${details.id}">
+                        <button class="btn btn-danger" th:text="#{button.deleteRequest}"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

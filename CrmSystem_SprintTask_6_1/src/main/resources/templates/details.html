@@ -5,45 +5,143 @@
 
 <!--Application form-->
     <div layout:fragment="content">
+
         <div class="container">
             <div class="row mt-5">
                 <div class="col-6 offset-3">
-                    <form th:action="${'/application/process'}" method="post">
-                        <input type="hidden" name="user-id" th:value="${applicationRequest.getId()}">
-                        <h5 th:if="${applicationRequest.isHandled() == false}" style="color:red;">*** Новая необработанная заявка ***</h5>
-                        <h5 th:unless="${applicationRequest.isHandled() == false}" style="color:green;">Обработанная заявка</h5>
+                    <form >
+                        <input type="hidden" name="user-id" th:value="${details.id}">
+                        <h5 th:if="${details.handled == false}" style="color:red;" th:text="#{label.statusUnhandledRequest}"></h5>
+                        <h5 th:unless="${details.handled == false}" style="color:green;" th:text="#{label.statusHandledRequest}"></h5>
                         <div class="form-group">
-                            <label>ФИО:</label>
-                            <input type="text" class="form-control" name="user-name" placeholder="Введите ваше ФИО"
-                                   th:value="${applicationRequest.getUserName()}">
+                            <label th:text="#{label.fullName}"></label>
+                            <input type="text" class="form-control" name="user-name" th:placeholder="#{label.fullNamePlaceholder}"
+                                   th:value="${details.userName}">
                         </div>
                         <div class="form-group">
-                            <label>Курс:</label>
-                            <input type="text" class="form-control" name="course-name"
-                                   th:value="${applicationRequest.getCourseName()}">
+                            <label th:text="#{label.course}"></label>
+                            <input type="hidden" th:value="${details.course.id}" name="course-name">
+                            <p type="text" class="form-control" th:text="${details.course.description}"></p>
                         </div>
                         <div class="form-group">
-                            <label>Телефон:</label>
+                            <label th:text="#{label.phone}"></label>
                             <input type="text" class="form-control" placeholder="+7(7__) ___ __ __" name="user-phone"
-                                   th:value="${applicationRequest.getPhone()}">
+                                   th:value="${details.phone}">
                         </div>
                         <div class="form-group">
-                            <label>Комментарии:</label>
+                            <label th:text="#{label.comment}"></label>
                             <textarea type="text" class="form-control" name="user-commentary" placeholder="Добавьте комменатрий"
-                                      th:text="${applicationRequest.getCommentary()}"></textarea>
-                        </div>
-                        <br>
-                        <div class="form-group" th:if="${applicationRequest.isHandled() == false}">
-                            <button class="btn btn-success">Обработать заявку</button>
+                                      th:text="${details.commentary}"></textarea>
                         </div>
                     </form>
                     <br>
+                    <div class="form-group" th:if="${details.handled == false}">
+                        <button class="btn btn-success" th:text="#{button.processRequest}"  data-bs-toggle="modal" data-bs-target="#staticBackdrop"></button>
+                    </div>
+                    <br>
                     <form th:action="${'/application/delete'}" method="post">
-                        <input type="hidden" name="user-id" th:value="${applicationRequest.getId()}">
-                        <button class="btn btn-danger">Удалить заявку</button>
+                        <input type="hidden" name="user-id" th:value="${details.id}">
+                        <button class="btn btn-danger" th:text="#{button.deleteRequest}"></button>
                     </form>
+                </div>
+
+<!--Operators table-->
+                <div class="row mt-5">
+
+                    <div class="container">
+                        <table class="table table-striped">
+
+                            <thead>
+                            <tr>
+                                <td>
+                                    <h6>Удалить</h6>
+                                </td>
+                                <td>
+                                    <h6>Имя</h6>
+                                </td>
+                                <td>
+                                    <h6>Фамилия</h6>
+                                </td>
+                                <td>
+                                    <h6>Департамент</h6>
+                                </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr th:each="assignedOperator:${operators}">
+                                    <form th:action="@{'/application/delete-operators'}" method="post">
+                                        <input type="hidden" th:value="${details.id}" name="details_id">
+                                        <td><input type="checkbox" name="operator_check"  th:value="${operator.id}"></td>
+                                        <td th:text="${operator.name}"></td>
+                                        <td th:text="${operator.surname}"></td>
+                                        <td th:text="${operator.department}"></td>
+                                        <button class="btn btn-primary" type="submit" th:text="#{button.chooseOperatorAssign}">
+                                        </button>
+                                    </form>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel" th:text="#{label.chooseOperator}"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form th:action="@{'/application/process'}" method="post">
+                            <div class="container">
+                                <table class="table table-striped">
+
+                                    <thead>
+                                        <tr>
+                                            <td>
+                                                <h6>Выбрать</h6>
+                                            </td>
+                                            <td>
+                                                <h6>Имя</h6>
+                                            </td>
+                                            <td>
+                                                <h6>Фамилия</h6>
+                                            </td>
+                                            <td>
+                                                <h6>Департамент</h6>
+                                            </td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr th:each="operator:${operators}">
+                                            <input type="hidden" th:value="${details.id}" name="details_id">
+                                            <td><input type="checkbox" name="operator_check"  th:value="${operator.id}"></td>
+                                            <td th:text="${operator.name}"></td>
+                                            <td th:text="${operator.surname}"></td>
+                                            <td th:text="${operator.department}"></td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <button class="btn btn-primary" type="submit" th:text="#{button.chooseOperatorAssign}">
+                            </button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                th:text="#{button.chooseOperatorCancel}"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </html>

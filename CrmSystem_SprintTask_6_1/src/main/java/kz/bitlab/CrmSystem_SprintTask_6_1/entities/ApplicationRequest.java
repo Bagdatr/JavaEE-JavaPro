@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="requests")
@@ -18,12 +19,14 @@ public class ApplicationRequest {
     private Long id;
     @Column(name="user_name")
     private String userName;
-    @Column(name="course_name")
-    private String courseName;
     @Column(name="commentary")
     private String commentary;
     @Column(name="phone")
     private String phone;
     @Column(name="handled")
     private boolean handled;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Courses course;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Operators> operators;
 }
