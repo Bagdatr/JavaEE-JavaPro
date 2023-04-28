@@ -13,6 +13,7 @@ import java.util.List;
 public class RequestServiceImpl implements RequestService {
     @Autowired
     RequestRepository requestRepository;
+
     @Override
     public Request addRequest(Request request) {
         return requestRepository.save(request);
@@ -21,5 +22,10 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public List<Request> getAllRequests() {
         return requestRepository.findAll();
+    }
+
+    @Override
+    public Request getRequest(Long id) {
+        return requestRepository.findAllById(id);
     }
 }

@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/main.html">
+
+    <div class="container" layout:fragment="content">
+        <div class="row offset-4 mt-3">
+            <form th:action="@{'/trello/update-task'}" method="post">
+                <div class="row">
+                    <label class="form-label"><h5>ID:</h5></label>
+                    <input type="hidden" th:value="${task.getFolder().getId()}" name="folder-id">
+                    <input type="number" class="form-control" th:value="${task.getId()}" style="width: 60%" name="task-id">
+                </div>
+                <div class="row">
+                    <label class="form-label"><h5>TITLE:</h5></label>
+                    <input type="text" class="form-control" th:value="${task.getTitle()}" style="width: 60%"
+                           name="task-title">
+                </div>
+                <div class="row">
+                    <label class="form-label"><h5>DESCRIPTION:</h5></label>
+                    <textarea type="text" class="form-control" th:text="${task.getDescription()}" style="width: 60%"
+                              name="task-description"></textarea>
+                </div>
+                <div class="row">
+                    <label class="form-label"><h5>STATUS:</h5></label>
+
+                    <select class="form-control" name="task-status" th:value="${task.getStatus()}">
+                        <option style="color: blue; font-weight: bold"  value="0">TO DO</option>
+                        <option style="color: yellow; font-weight: bold"  value="1">IN TEST</option>
+                        <option style="color: red; font-weight: bold"  value="2">FAILED</option>
+                        <option style="color: green; font-weight: bold" value="3">DONE</option>
+                    </select>
+
+<!--                    <input type="text" class="form-control" th:value="${task.getStatus()}" style="width: 60%"-->
+<!--                           name="task-status" >-->
+                </div>
+                <br>
+                <button class="btn btn-success">SAVE</button>
+            </form>
+        </div>
+    </div>
+</html>

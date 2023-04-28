@@ -7,4 +7,5 @@ import java.util.List;
 public interface RequestService {
     Request addRequest(Request request);
     List<Request> getAllRequests();
+    Request getRequest(Long id);
 }

@@ -1,13 +1,12 @@
 package kz.bitlab.crmNewProject.repositories;
 
 import jakarta.transaction.Transactional;
-import kz.bitlab.crmNewProject.entities.Course;
-import kz.bitlab.crmNewProject.entities.Request;
+import kz.bitlab.crmNewProject.entities.Operator;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Transactional
-public interface RequestRepository extends JpaRepository<Request,Long> {
-    Request findAllById(Long id);
+public interface OperatorRepository extends JpaRepository<Operator,Long> {
+    Operator findAllById(Long id);
 }

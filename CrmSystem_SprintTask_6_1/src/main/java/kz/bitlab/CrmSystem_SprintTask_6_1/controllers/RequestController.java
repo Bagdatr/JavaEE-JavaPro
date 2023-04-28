@@ -68,7 +68,6 @@ public class RequestController {
         model.addAttribute("details", requestRepository.findAllById(id));
         model.addAttribute("courses",coursesRepository.findAll());
         model.addAttribute("operators",operatorsRepository.findAll());
-        model.addAttribute("listOfAssignedOperators",requestRepository.)
         return "details";
     }
 
@@ -112,5 +111,20 @@ public class RequestController {
     public String deleteTask(@RequestParam(name="user-id")Long id){
         requestRepository.deleteById(id);
         return "redirect:/application/tasks";
+    }
+
+    @PostMapping(value="/delete-operators")
+    public String deleteOperators(@RequestParam(name="operator_id_to_delete")Long operatorId,
+                                  @RequestParam(name="details_id")Long detailsId){
+        String redirect = "/application/delete-operators?error";
+        ApplicationRequest applicationRequest = requestRepository.findAllById(detailsId);
+        Operators operator = operatorsRepository.findAllById(operatorId);
+        List<Operators> operatorsList = applicationRequest.getOperators();
+        operatorsList.remove(operator);
+        applicationRequest.setOperators(operatorsList);
+        if(requestRepository.save(applicationRequest) != null){
+            redirect = "/application/details/" + detailsId;
+        }
+        return "redirect:" + redirect;
     }
 }

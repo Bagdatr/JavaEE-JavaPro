@@ -1,0 +1,124 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/main.html">
+
+    <div class="row" layout:fragment="content">
+        <form>
+            <div class="form-group">
+                <label class="form-label">FULL-NAME:</label>
+                <input type="text" class="form-control" name="request-name" th:value="${request.getFullName()}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">COURSE:</label>
+                <select class="form-control" name="request-course-id">
+                    <option th:each="course:${courses}" th:value="${course.getId()}" th:text="${course.getName()}
+                     +' || '+ ${course.getPrice()} +' KZT'">
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">PHONE-NUMBER:</label>
+                <input type="text" class="form-control" name="request-phone" th:value="${request.getPhone()}">
+            </div>
+            <div class="form-group">
+                <label class="form-label">COMMENTS:</label>
+                <textarea class="form-control" name="request-comment" th:text="${request.getComment()}"></textarea>
+            </div>
+        </form>
+
+        <div class="form-group">
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalOne">
+                Handle request
+            </button>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <strong><h4>DELETE</h4></strong>
+            </div>
+            <div class="col-md-3">
+                <strong><h4>NAME</h4></strong>
+            </div>
+            <div class="col-md-3">
+                <strong><h4>SURNAME</h4></strong>
+            </div>
+            <div class="col-md-3">
+                <strong><h4>DEPARTMENT</h4></strong>
+            </div>
+        </div>
+        <div class="row" th:each="reqOperator:${request.getOperators()}">
+            <div class="col-md-3">
+                <form th:action="@{'/request/operator-delete'}" method="post">
+                    <input type="hidden" th:value="${reqOperator.getId()}" name="req-operator-id">
+                    <input type="hidden" th:value="${request.getId()}" name="request-id">
+                    <button class="btn btn-danger">X</button>
+                </form>
+            </div>
+            <div class="col-md-3">
+                <h5 th:text="${reqOperator.getName()}"></h5>
+            </div>
+            <div class="col-md-3">
+                <h5 th:text="${reqOperator.getSurname()}"></h5>
+            </div>
+            <div class="col-md-3">
+                <h5 th:text="${reqOperator.getDepartment()}"></h5>
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalOne" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <form th:action="@{'/request/operator-assign'}" method="post">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <strong><h4>CHOOSE</h4></strong>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong><h4>NAME</h4></strong>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong><h4>SURNAME</h4></strong>
+                                </div>
+                                <div class="col-md-3">
+                                    <strong><h4>DEPARTMENT</h4></strong>
+                                </div>
+                            </div>
+
+                            <div class="row" th:each="operator:${operators}">
+                                <input type="hidden" th:value="${request.getId()}" name="request-id">
+                                <div class="col-md-3">
+                                    <input type="checkbox" class="form-check-input" name="operator" th:value="${operator.getId()}">
+                                </div>
+                                <div class="col-md-3">
+                                    <h5 th:text="${operator.getName()}"></h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5 th:text="${operator.getSurname()}"></h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5 th:text="${operator.getDepartment()}"></h5>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">CLOSE</button>
+                            <button type="submit" class="btn btn-primary">ASSIGN</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</html>

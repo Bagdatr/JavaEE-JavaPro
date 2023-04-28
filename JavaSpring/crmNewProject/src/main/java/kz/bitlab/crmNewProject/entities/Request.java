@@ -3,6 +3,8 @@ package kz.bitlab.crmNewProject.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="t_requests")
 @Getter
@@ -20,4 +22,6 @@ public class Request {
     private boolean handle;
     @ManyToOne(fetch = FetchType.EAGER)
     private Course course;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Operator> operators;
 }

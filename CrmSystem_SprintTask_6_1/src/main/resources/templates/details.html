@@ -69,15 +69,14 @@
                             </thead>
 
                             <tbody>
-                                <tr th:each="assignedOperator:${operators}">
+                                <tr th:each="operator:${details.getOperators()}">
                                     <form th:action="@{'/application/delete-operators'}" method="post">
                                         <input type="hidden" th:value="${details.id}" name="details_id">
-                                        <td><input type="checkbox" name="operator_check"  th:value="${operator.id}"></td>
+                                        <input type="hidden" th:value="${operator.id}" name="operator_id_to_delete">
+                                        <td><button type="submit" class="btn btn-danger">X</button></td>
                                         <td th:text="${operator.name}"></td>
                                         <td th:text="${operator.surname}"></td>
                                         <td th:text="${operator.department}"></td>
-                                        <button class="btn btn-primary" type="submit" th:text="#{button.chooseOperatorAssign}">
-                                        </button>
                                     </form>
                                 </tr>
                             </tbody>
