@@ -8,6 +8,7 @@ import kz.bitlab.trello.services.FolderService;
 import kz.bitlab.trello.services.TaskCategoriesService;
 import kz.bitlab.trello.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ public class HomeController {
     @Autowired
     public TaskService taskService;
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     @GetMapping(value="/home")
     public String openHome(Model model){
         List<Folder> folders = folderService.getAllFolders();
@@ -44,6 +46,7 @@ public class HomeController {
         return "redirect:" + redirect;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     @GetMapping(value="/details/{id}")
     public String openDetails(@PathVariable("id") Long id,
                               Model model){
@@ -107,6 +110,7 @@ public class HomeController {
         return "redirect:" + redirect;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     @GetMapping(value="/add-category")
     public String openAddCategories(Model model){
         List<TaskCategories>categories = taskCategoriesService.getAllCategories();
@@ -133,6 +137,7 @@ public class HomeController {
         return "redirect:" + redirect;
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
     @GetMapping(value="/task-details/{id}")
     public String openTaskDetails(@PathVariable("id") Long id,
                                   Model model){
@@ -159,5 +164,12 @@ public class HomeController {
         }
         return "redirect:" + redirect;
     }
+
+    @GetMapping(value = "/login")
+    public String openLogin(){
+        return "login";
+    }
+
+
 
 }
