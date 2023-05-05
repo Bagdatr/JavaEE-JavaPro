@@ -1,6 +1,6 @@
-package kz.bitlab.springsecuritytesting.config;
+package indipendentwork.java.spring.security.config;
 
-import kz.bitlab.springsecuritytesting.services.MyUserService;
+import indipendentwork.java.spring.security.services.MyUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,9 +27,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder
-                .userDetailsService(userService())
-                .passwordEncoder(passwordEncoder());
+        authenticationManagerBuilder.userDetailsService(userService())
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/sign-in")
@@ -40,10 +38,6 @@ public class SecurityConfig {
         http.logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login");
-
-        http.exceptionHandling()
-                .accessDeniedPage("/403");
-
         return http.build();
     }
 }

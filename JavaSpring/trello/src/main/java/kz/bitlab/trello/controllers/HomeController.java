@@ -1,6 +1,5 @@
 package kz.bitlab.trello.controllers;
 
-import groovy.lang.Category;
 import kz.bitlab.trello.entities.Folder;
 import kz.bitlab.trello.entities.Task;
 import kz.bitlab.trello.entities.TaskCategories;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,7 +24,7 @@ public class HomeController {
     @Autowired
     public TaskService taskService;
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value="/home")
     public String openHome(Model model){
         List<Folder> folders = folderService.getAllFolders();
@@ -46,7 +44,7 @@ public class HomeController {
         return "redirect:" + redirect;
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value="/details/{id}")
     public String openDetails(@PathVariable("id") Long id,
                               Model model){
@@ -110,7 +108,7 @@ public class HomeController {
         return "redirect:" + redirect;
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value="/add-category")
     public String openAddCategories(Model model){
         List<TaskCategories>categories = taskCategoriesService.getAllCategories();
@@ -137,7 +135,7 @@ public class HomeController {
         return "redirect:" + redirect;
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(value="/task-details/{id}")
     public String openTaskDetails(@PathVariable("id") Long id,
                                   Model model){
@@ -169,7 +167,11 @@ public class HomeController {
     public String openLogin(){
         return "login";
     }
-
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping(value="/profile")
+    public String openProfile(){
+        return "profile";
+    }
 
 
 }

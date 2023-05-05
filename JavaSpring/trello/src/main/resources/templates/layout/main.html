@@ -1,5 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
@@ -19,6 +20,12 @@
                 </div>
                 <div class="col-md-1 text-light mt-2">
                     <a th:href="@{'/trello/add-category'}" style="text-decoration: none; color: white"><h6>Categories</h6></a>
+                </div>
+                <div class="col-md-1 text-light mt-2">
+                    <a th:href="@{'/trello/login'}" style="text-decoration: none; color: white"><h6>Login</h6></a>
+                </div>
+                <div class="col-md-1 text-light mt-2">
+                    <a th:href="@{'/trello/profile'}" style="text-decoration: none; color: white" sec:authorize="isAuthenticated()"><h6>Profile</h6></a>
                 </div>
             </div>
         </div>

@@ -3,7 +3,10 @@
       layout:decorate="layout/main.html">
 
     <div class="row" layout:fragment="content">
-        <h1>WELCOME TO HOMEPAGE</h1>
+        <div class="col-md-3">
+            <h1>WELCOME TO HOMEPAGE</h1>
+            <a th:href="@{'/profile'}">GO TO PROFILE</a>
+        </div>
     </div>
 
 </html>
