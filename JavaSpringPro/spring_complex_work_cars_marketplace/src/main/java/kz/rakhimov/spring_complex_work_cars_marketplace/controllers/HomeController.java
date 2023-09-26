@@ -1,7 +1,5 @@
 package kz.rakhimov.spring_complex_work_cars_marketplace.controllers;
 
-import kz.rakhimov.spring_complex_work_cars_marketplace.entities.Car;
-import kz.rakhimov.spring_complex_work_cars_marketplace.entities.CarDto;
 import kz.rakhimov.spring_complex_work_cars_marketplace.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

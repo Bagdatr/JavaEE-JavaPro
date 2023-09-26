@@ -5,7 +5,7 @@
     <div class="row" layout:fragment="content">
         <div class="col-md-3">
             <h1>WELCOME TO HOMEPAGE</h1>
-            <a th:href="@{'/profile'}">GO TO PROFILE</a>
+            <a th:href="@{'/profile/' + ${#authentication.principal.email}}">GO TO PROFILE</a>
         </div>
     </div>
 

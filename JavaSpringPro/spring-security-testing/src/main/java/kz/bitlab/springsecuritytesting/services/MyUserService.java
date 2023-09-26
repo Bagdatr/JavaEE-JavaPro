@@ -5,7 +5,6 @@ import kz.bitlab.springsecuritytesting.entities.Users;
 import kz.bitlab.springsecuritytesting.repositories.PermissionRepository;
 import kz.bitlab.springsecuritytesting.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,10 +18,13 @@ import java.util.List;
 public class MyUserService implements UserDetailsService {
     @Autowired
     private UsersRepository usersRepository;
+
     @Autowired
     private PermissionRepository permissionRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users user = usersRepository.findByEmail(username);
@@ -73,5 +75,9 @@ public class MyUserService implements UserDetailsService {
             }
         }
         return flag;
+    }
+
+    public Users getUserByEmail(String email){
+        return usersRepository.findByEmail(email);
     }
 }

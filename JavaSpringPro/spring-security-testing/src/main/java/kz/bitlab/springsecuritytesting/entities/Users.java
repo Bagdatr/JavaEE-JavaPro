@@ -1,9 +1,6 @@
 package kz.bitlab.springsecuritytesting.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +21,9 @@ public class Users extends BaseEntity implements UserDetails {
     private String fullName;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Photo> photos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

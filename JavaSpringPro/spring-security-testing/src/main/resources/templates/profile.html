@@ -5,8 +5,32 @@
 
     <div class="row" layout:fragment="content">
         <div class="col-md-4 mt-5">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Unknown_person.jpg"
-                 style="width: 30%; height: 29%; border-radius: 100%">
+            <img th:src="@{'/' + ${currentUser.getPhotos().get(0).name} + '.jpg'}"
+                 th:if="${currentUser.getPhotos().size() > 0}"  style="width: 100%">
+            <form th:action="@{'/upload-file'}" method="post" enctype="multipart/form-data">
+                <input type="hidden" th:value="${#authentication.principal.email}" name="email">
+                <div class="form-group">
+                    <label class="form-label">UPLOAD FILE:</label>
+                    <input type="file" class="form-control" name="photo">
+                    <button class="btn btn-primary">UPLOAD</button>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <img th:src="@{'/' + ${currentUser.getPhotos().get(1).name} + '.jpg'}"
+                         th:if="${currentUser.getPhotos().size() > 1}" style="width: 200px">
+                </div>
+                <div class="col-md-3">
+                    <img th:src="@{'/' + ${currentUser.getPhotos().get(2).name} + '.jpg'}"
+                         th:if="${currentUser.getPhotos().size() > 2}" style="width: 200px">
+                </div>
+                <div class="col-md-3">
+                    <img th:src="@{'/' + ${currentUser.getPhotos().get(3).name} + '.jpg'}"
+                         th:if="${currentUser.getPhotos().size() > 3}" style="width: 200px">
+                </div>
+            </div>
+
             <h3 th:text="${#authentication.principal.fullName}"></h3>
             <br>
             <h4 th:text="${#authentication.principal.email}"></h4>

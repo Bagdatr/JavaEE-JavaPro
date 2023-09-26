@@ -1,41 +1,47 @@
 package kz.bitlab.springsecuritytesting.controllers;
 
-import kz.bitlab.springsecuritytesting.entities.Users;
+import kz.bitlab.springsecuritytesting.services.FileService;
 import kz.bitlab.springsecuritytesting.services.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 @Controller
 @RequestMapping(value="/")
 public class HomeController {
     @Autowired
     private MyUserService userService;
+
+    @Autowired
+    private FileService fileService;
+
     @GetMapping(value="/login")
     public String openLogin(){
         return "login";
     }
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_MODERATOR')")
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER', 'ROLE_MODERATOR')")
     @GetMapping(value="/home")
     public String openHome(){
         return "home";
     }
-    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
-    @GetMapping(value="/profile")
-    public String openProfile(){
+
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN','ROLE_USER', 'ROLE_MODERATOR')")
+    @GetMapping(value="/profile/{email}")
+    public String openProfile(@PathVariable("email") String email, Model model){
+        model.addAttribute("currentUser", userService.getUserByEmail(email));
         return "profile";
     }
+
     @GetMapping(value="/register")
     public String openRegister(){
         return "register";
     }
+
     @PostMapping(value="/register")
     public String registerPost(@RequestParam("user-full-name")String fullName,
                                @RequestParam("user-email")String email,
@@ -52,6 +58,7 @@ public class HomeController {
         }
         return "redirect:" + redirect;
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping(value="/change-password")
     public String openChangePassword(){
@@ -80,6 +87,13 @@ public class HomeController {
     @GetMapping(value="/403")
     public String openAccessDenied(){
         return "403";
+    }
+
+    @PostMapping(value="/upload-file")
+    public String uploadFilePost(@RequestParam(name = "photo")MultipartFile file,
+                                 @RequestParam(name = "email") String email){
+        fileService.uploadFile(file, email);
+        return "redirect:profile/" + email;
     }
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 public class BrandServiceImpl implements BrandService {
     @Autowired
     private BrandRepository brandRepository;
+
     @Override
     public Brand addBrand(Brand brand) {
         return brandRepository.save(brand);
